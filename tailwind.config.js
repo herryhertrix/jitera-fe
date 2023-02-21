@@ -27,23 +27,14 @@ const themeConstants = {
 };
 
 module.exports = {
- mode: "jit",
  content: [
-    "./pages/*.{js,ts,jsx,tsx}",
-    "./Components/**/*.{js,ts,jsx,tsx}",
-    "./hoc/*.{js,ts,jsx,tsx}",
-    "./Widgets/**/*.{js,ts,jsx,tsx}",
+  './src/**/*.{js,jsx,ts,tsx}',
+  './node_modules/tw-elements/dist/js/**/*.js',
+  './pages/**/*.{js,ts,jsx,tsx}',
+  './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
-      colors: {
-        paper: themeConstants.paper,
-        primary: themeConstants.primary,
-        secondary: themeConstants.secondary,
-        error: themeConstants.error,
-        fg: themeConstants.fg.main,
-        "fg-dark": themeConstants.fg.dark,
-      },
     }, 
     
     // We over ride the whole screens with breakpoints for width. The 'ha' breakpoint will help us in blocking hover animations on devices not supporting hover.

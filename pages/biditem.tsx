@@ -12,33 +12,41 @@ import renderer from "../src/helpers/countdown";
 import TabPanel from "../src/helpers/tabpanel";
 
 interface ItemProps {
+  _id: string,
   userId: string,
   name: string,
   timewindow: number,
-  startprice: number
+  startprice: number,
+  published: boolean,
 }
 
-function Home() {
-  const [rows, setRows] = useState<ItemProps[]>([])
+function BidItem() {
+  const [rowItem, setrowItem] = useState<ItemProps[]>([])
+  const [rowBid, setrowBid] = useState<ItemProps[]>([])
   const user = useSelector(selectuser)
   const now = new Date(Date.now()).getTime()
 
   useEffect(() => {
-    fetch(`${process.env.API}/items/`, {
-      mode: "cors",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    }).then(async resp => {
-      const value = await resp.json()
-      if (value.length != 0) {
-        setRows(value)
-      }
-    }).catch(reason => {
-    });
-  }, []);
+    if (user.id) {
+      fetch(`${process.env.API}/items/` + user.id, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }).then(async resp => {
+        const { myItem, myBid } = await resp.json()
+        if (myItem.length != 0) {
+          setrowItem(myItem)
+        }
+        if (myBid.length != 0) {
+          setrowBid(myBid)
+        }
+      }).catch(reason => {
+      });
+    }
+  }, [user.id]);
   const StyledTableCell = styled(TableCell)(({ theme }: any) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -69,14 +77,38 @@ function Home() {
       'aria-controls': `full-width-tabpanel-${index}`,
     };
   }
+  function handlePublish(id: string){
+    const formData = {
+      id: id,
+      userId: user.id
+    }
+    fetch(`${process.env.API}/items/publish`, {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(formData),
+    }).then(async resp => {
+      const { myItem, myBid } = await resp.json()
+      if (myItem.length != 0) {
+        setrowItem(myItem)
+      }
+      if (myBid.length != 0) {
+        setrowBid(myBid)
+      }
+    }).catch(reason => {
+    });
+  }
   return (
     <Layout>
       <div className="flex max-w-[1000px] w-full mx-auto flex-col gap-5 mt-[50px] h-full">
         <div className="flex flex-row gap-3 px-9 mr-auto">
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabs} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Ongiong" {...a11yProps(0)} />
-              <Tab label="Completed" {...a11yProps(1)} />
+              <Tab label="Items" {...a11yProps(0)} />
+              <Tab label="Bidded" {...a11yProps(1)} />
             </Tabs>
           </Box>
         </div>
@@ -92,7 +124,7 @@ function Home() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.filter((x)=> now < new Date(x.timewindow).getTime()).map((row) => (
+                {rowItem.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
@@ -106,7 +138,8 @@ function Home() {
                       date={row.timewindow}
                       renderer={renderer}
                     /></StyledTableCell>
-                    {user.id !== "" && <StyledTableCell align="right"><BidItemModal item={row}></BidItemModal></StyledTableCell>}
+                    {user.id !== "" && <StyledTableCell align="right"><div className="text-right">
+                      <Button variant="outlined" disabled={row.published} onClick={(e) => handlePublish(row._id)} >Publish</Button></div></StyledTableCell>}
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -125,7 +158,7 @@ function Home() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.filter((x)=> now > new Date(x.timewindow).getTime()).map((row) => (
+                {rowBid.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
@@ -151,4 +184,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default BidItem;

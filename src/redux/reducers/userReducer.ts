@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface userState {
-    userName: string;
-    deposit: string;
+    username: any;
+    id: any;
 }
 
 export const userStateDefaultValue: userState = {
-    userName: "",
-    deposit: "",
+    id: "",
+    username: "",
 }
 
 const userSlice = createSlice({
@@ -15,18 +15,19 @@ const userSlice = createSlice({
     initialState: userStateDefaultValue,
     reducers: {
         logout(state) {
-            state.userName = ""
-            state.deposit = ""
+            state.id = ""
+            state.username = ""
+        },
+        login(state, actions){
+            state.id = actions.payload.id
+            state.username = actions.payload.username
         }
     }
 })
 
-export const { logout } = userSlice.actions;
+export const { logout, login } = userSlice.actions;
 export const selectuser = (state: any): userState => {
     return state.user as userState;
-};
-export const selectUserToken = (state: any): string => {
-    return state.user.token;
 };
 export default userSlice.reducer;
 

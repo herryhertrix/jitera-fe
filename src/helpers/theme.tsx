@@ -1,19 +1,21 @@
 import { createTheme } from "@mui/material/styles";
+import type {} from '@mui/x-date-pickers-pro/themeAugmentation';
+
 const themeConstants = {
   paper: "#F9F9F9",
   primary: {
     main: "#fff",
-    dark: "#e5e5e5",
+    dark: "#0a1929",
   },
   secondary: {
     main: "#212121",
-    dark: "#3A3A3A",
+    dark: "#0a1929",
   },
   error: {
     main: "#b22222",
     dark: "#8b0000",
   },
-  fg: { main: "#fff", dark: "rgba(55, 65, 81, 1)" },
+  fg: { main: "#fff", dark: "0a1929" },
   breakpoints: {
     xs: 0,
     mb: 350,
@@ -38,6 +40,15 @@ const theme = createTheme({
   },
   breakpoints: {
     values: themeConstants.breakpoints,
+  },
+  components: { 
+    MuiDatePicker: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'blue',
+        },
+      },
+    },
   },
 });
 

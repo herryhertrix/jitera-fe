@@ -1,15 +1,20 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import "../styles/globals.css"
-import { Fragment, useEffect } from 'react';
-import { wrapper } from '../src/redux/store';
+import { Fragment, useEffect, useState } from 'react';
+import { store, wrapper } from '../src/redux/store';
 import PropTypes from 'prop-types';
 import { Button, Checkbox, CssBaseline, Experimental_CssVarsProvider } from '@mui/material';
 import Head from 'next/head';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { selectuser } from '../src/redux/reducers/userReducer';
+import { getbalance, selectbalance } from '../src/redux/reducers/balanceReducer';
+import { throttle } from 'lodash';
+import { saveState } from '../src/redux/localstorage';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);
+  const [ready, setready] = useState(false)
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -17,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       jssStyles.parentElement.removeChild(jssStyles)
 
     }
+    setready(true)
   }, []);
   return <Fragment>
     <Head>
@@ -29,7 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        {ready &&   <Component {...pageProps} />}
+      
       </Provider>
       </Experimental_CssVarsProvider>
   </Fragment>
