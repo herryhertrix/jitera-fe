@@ -1,27 +1,40 @@
-# Next.js + Tailwind CSS Example
+<h1 align="center" id="title">Jitera-FE</h1>
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+<p id="description">Auction online website</p>
 
-## Deploy your own
+<h2>🛠️ Installation Steps:</h2>
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+<p>1. install all library</p>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
+```
+npm install
 ```
 
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+<p>2. create .env and copy from .env.example</p>
+
+```
+.env
 ```
 
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+<p>3. This FE will use port 3000</p>
+
+```
+localhost:3000
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+<p>4. start project</p>
+
+```
+npm run dev
+```
+
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   Next.js
+*   Typescript
+*   Tailwind
+*   MUI
+*   Redux
+*   React
